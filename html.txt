@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jessie Math捷析 - 容積闖關</title>
+
+    <meta name="description" content="© 2025–2026 Jessie Math 捷析老師. All rights reserved.">
+    <meta property="og:title" content="Jessie Math捷析 - 容積闖關">
+    <meta property="og:description" content="© 2025–2026 Jessie Math 捷析老師. All rights reserved.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="g5-u17.png">
+    <meta property="og:image:width" content="1024">
+    <meta property="og:image:height" content="1536">
+    <meta property="og:image:alt" content="Jessie Math 遊戲封面">
+    <link rel="image_src" href="g5-u17.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Jessie Math捷析 - 容積闖關">
+    <meta name="twitter:description" content="© 2025–2026 Jessie Math 捷析老師. All rights reserved.">
+    <meta name="twitter:image" content="g5-u17.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #f39c12;
+            --primary-dark: #d68910;
+            --text-dark: #2c3e50;
+            --bg-light: #fdfefe;
+            --btn-blue: #3498db;
+            --btn-purple: #9b59b6;
+            --danger: #e74c3c;
+            --success: #2ecc71;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f7;
+            /* ✅ 背景設定：涵蓋全畫面並對齊左上角 */
+            background-image: url('jessie logo.jpg');
+            background-size: cover;
+            background-position: top left;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            
+            /* ✅ 修正：禁止文字選取(反藍)與拖曳 */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* ✅ 修正：禁止圖片或SVG被拖曳 */
+        img, svg {
+            -webkit-user-drag: none;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 30;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-img-wrapper {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent;
+        }
+
+        .logo-img-wrapper img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .logo-area h1 {
+            margin: 0;
+            font-size: 28px;
+            color: var(--text-dark);
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1.5px solid;
+            transition: all 0.3s;
+        }
+
+        .nav-btn.home { color: var(--btn-blue); border-color: var(--btn-blue); background: #ebf5fb; }
+        .nav-btn.home:hover { background: var(--btn-blue); color: white; }
+        .nav-btn.lobby { color: var(--btn-blue); border-color: var(--btn-blue); background: white; }
+        .nav-btn.lobby:hover { background: var(--btn-blue); color: white; }
+        .nav-btn.back { color: var(--btn-purple); border-color: var(--btn-purple); background: #f4ecf7; }
+        .nav-btn.back:hover { background: var(--btn-purple); color: white; }
+
+        /* Container */
+        .container {
+            flex: 1;
+            max-width: 900px;
+            width: 90%;
+            margin: 30px auto;
+            padding: 20px 30px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            text-align: center;
+            position: relative;
+        }
+
+        .screen { display: none; }
+        .screen.active { display: block; }
+
+        /* General Inputs & Buttons */
+        input[type="text"], input[type="number"] {
+            padding: 12px 20px;
+            font-size: 18px;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            width: 50%;
+            max-width: 250px;
+            margin: 5px;
+            outline: none;
+            text-align: center;
+            
+            /* ✅ 修正：輸入框必須允許選取文字與點擊 */
+            -webkit-user-select: auto;
+            -moz-user-select: auto;
+            -ms-user-select: auto;
+            user-select: auto;
+        }
+        
+        input[type="number"]:disabled {
+            background-color: #ecf0f1;
+            cursor: not-allowed;
+        }
+
+        button.action-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+            margin: 5px;
+        }
+        button.action-btn:hover { background: var(--primary-dark); transform: scale(1.05); }
+        button.action-btn:disabled { background: #95a5a6; cursor: not-allowed; transform: none; }
+        button.danger-btn { background: var(--danger); }
+        button.danger-btn:hover { background: #c0392b; }
+        button.warning-btn { background: #e67e22; }
+        button.warning-btn:hover { background: #d35400; }
+
+        /* Screen 1: Login & Rules */
+        .rules-box {
+            background: #fff9e6;
+            border: 2px dashed var(--primary);
+            padding: 15px 20px;
+            border-radius: 10px;
+            text-align: left;
+            margin: 15px auto;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        /* Screen 2: Level Selection & Leaderboard */
+        .level-grid, .diff-grid {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        .level-card, .diff-card {
+            padding: 15px;
+            border: 2px solid #ecf0f1;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 180px;
+        }
+        .level-card:hover, .diff-card:hover { border-color: var(--primary); background: #fef9e7; }
+        .level-card.selected, .diff-card.selected { border-color: var(--primary); background: var(--primary); color: white; }
+
+        .leaderboard-section {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 3px solid #ecf0f1;
+            overflow-x: auto; /* For mobile tables */
+        }
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 16px;
+            min-width: 600px; /* Ensure it doesn't squish too much on mobile */
+        }
+        .leaderboard-table th, .leaderboard-table td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+        .leaderboard-table th { background: var(--primary); color: white; }
+        .leaderboard-table tr:hover { background-color: #fdf2e9; }
+        .rank-icon { font-size: 24px; }
+
+        /* Screen 3: Game Area */
+        #screen-game {
+            position: relative;
+            padding-bottom: 20px;
+            min-height: 450px;
+        }
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ecf0f1;
+            position: relative;
+            z-index: 20;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .stat-box { font-size: 20px; font-weight: bold; }
+        .stat-box span { color: var(--primary); }
+        
+        .question-area {
+            font-size: 22px;
+            margin: 10px 0;
+            line-height: 1.5;
+            position: relative;
+            z-index: 20; /* 平時位於底層之上 */
+        }
+        .image-area {
+            margin: 10px auto;
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 5;
+        }
+        .image-area svg {
+            max-height: 100%;
+            max-width: 100%;
+        }
+
+        .input-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            position: relative;
+            z-index: 30; /* ✅ 修正：提高圖層，確保在白板上方可點選輸入框 */
+            margin-top: 10px;
+        }
+        
+        .controls { 
+            display: flex; 
+            justify-content: center; 
+            flex-wrap: wrap;
+            gap: 10px; 
+            margin-top: 20px; 
+            position: relative;
+            z-index: 30; /* ✅ 修正：提高圖層，確保在白板上方可點擊按鈕 */
+        }
+
+        /* 隨機出現的捷析加油框 */
+        .cheer-popup {
+            position: fixed; /* 改為 Fixed 避免被 container 限制 */
+            z-index: 100;
+            pointer-events: none; /* 防止干擾點擊 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            /* 將位置移至兩側，避開中間的按鈕區 */
+            bottom: 20%; 
+        }
+        .cheer-popup.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .cheer-popup.left {
+            left: 5%;
+            transform: translateY(20px) rotate(-5deg);
+        }
+        .cheer-popup.show.left {
+            transform: translateY(0) rotate(0deg);
+        }
+        .cheer-popup.right {
+            right: 5%;
+            transform: translateY(20px) rotate(5deg);
+        }
+        .cheer-popup.show.right {
+            transform: translateY(0) rotate(0deg);
+        }
+        
+        .cheer-popup img {
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            background: white;
+            margin-bottom: 10px;
+            /* 寬度由 JavaScript 動態設定 (200px - 300px) */
+            height: auto;
+        }
+        .cheer-bubble {
+            background: white;
+            padding: 10px 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.4;
+            max-width: 250px;
+        }
+        .cheer-bubble.correct {
+            border: 3px solid var(--success);
+            color: var(--success);
+        }
+        .cheer-bubble.wrong {
+            border: 3px solid var(--danger);
+            color: var(--danger);
+        }
+
+        /* 遊戲結束復盤畫面 */
+        .summary-stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+            background: #fef9e7;
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .summary-stats span { color: var(--danger); font-size: 24px; }
+        .history-list {
+            max-height: 400px;
+            overflow-y: auto;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        /* Whiteboard Implementation */
+        #whiteboard-container {
+            position: fixed; /* ✅ 修正：改為 fixed 以滿版覆蓋整個畫面 */
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 10;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        #whiteboard {
+            width: 100%; height: 100%;
+            background: transparent;
+            cursor: crosshair;
+            /* ✅ 修正：解決觸控版面上繪製白板時畫面跟著捲動的問題 */
+            touch-action: none;
+        }
+        /* ✅ 修正：啟動白板時將圖層提高，蓋過題目文字(才畫得上去) */
+        .wb-active #whiteboard-container { 
+            pointer-events: auto;
+            background: rgba(255, 255, 255, 0.4);
+            z-index: 25; 
+        }
+
+        .interactive {
+            position: relative;
+            /* ✅ 修正：讓可互動按鈕與輸入框的圖層保持最高，不會被白板擋住 */
+            z-index: 30 !important; 
+            pointer-events: auto !important; 
+        }
+
+        /* ✅ Footer Styles */
+        footer {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            z-index: 30;
+            margin-top: auto;
+        }
+        .footer-pill {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--text-dark);
+            color: #ecf0f1;
+            padding: 12px 35px;
+            border-radius: 50px;
+            flex-wrap: wrap;
+            gap: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 850px;
+            font-size: 14px;
+        }
+        .footer-left, .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .footer-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+        .footer-icon i {
+            color: var(--primary);
+            font-size: 1.4em;
+        }
+
+        /* ✅ RWD: 強制手機橫向顯示的警告遮罩 */
+        #orientation-warning {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(44, 62, 80, 0.98);
+            color: white;
+            z-index: 9999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        #orientation-warning i { font-size: 50px; color: var(--primary); margin-bottom: 20px; }
+        
+        /* 當寬度小於 767px 且為直向時 (手機直向) 顯示旋轉提示，隱藏主要內容 */
+        @media screen and (max-width: 767px) and (orientation: portrait) {
+            #orientation-warning { display: flex; }
+            header, .container, footer { display: none !important; }
+        }
+
+        /* 其他基礎 RWD 調整 */
+        @media (max-width: 768px) {
+            header { flex-direction: column; text-align: center; gap: 10px; }
+            .footer-pill { justify-content: center; text-align: center; flex-direction: column; border-radius: 20px; }
+            .container { padding: 15px; margin: 15px auto; }
+            .cheer-popup.left { left: -5%; }
+            .cheer-popup.right { right: -5%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="orientation-warning">
+        <i class="fas fa-mobile-alt fa-rotate-90"></i>
+        <h2>請旋轉您的設備</h2>
+        <p>為了獲得最佳的遊戲體驗，手機請務必使用「橫向」模式進行闖關！</p>
+    </div>
+
+    <header>
+        <div class="logo-area">
+            <div class="logo-img-wrapper">
+                <img src="JESSIEMATH-Q.png" alt="Jessie Math Logo" onerror="this.src='https://via.placeholder.com/60/f39c12/ffffff?text=J'">
+            </div>
+            <h1>Jessie Math捷析</h1>
+        </div>
+        <div class="nav-links">
+            <a href="https://jessiemath0703-chu.github.io/website2/" class="nav-btn home"><span>🏠</span> 首頁</a>
+            <a href="https://jessiemath0703-chu.github.io/Game-Lobby/" class="nav-btn lobby"><span>🎮</span> 遊戲大廳</a>
+            <a href="https://jessiemath0703-chu.github.io/Game-Lobby/#g5-u17" class="nav-btn back"><span>🔙</span> G5容積</a>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <div id="screen-login" class="screen active">
+            <h2>歡迎來到 G5 容積與容量挑戰賽！</h2>
+            <div class="rules-box">
+                <h3>📜 遊戲規則：</h3>
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                    <li>請先輸入您的挑戰者名稱。</li>
+                    <li><strong>無盡題庫：</strong> 題目無限挑戰不重複！計算結果最多到小數第二位。</li>
+                    <li><strong>連擊 Combo：</strong> 連續答對會啟動 Combo，分數倍率飆升！</li>
+                    <li><strong>時間獎懲：</strong> 答對一題 <b>+5秒</b>，答錯一題 <b>-5秒</b>。</li>
+                    <li><strong>即時回饋：</strong> 答題後會顯示對錯與正解，1.5秒後自動進入下一題。</li>
+                    <li><strong>遊戲復盤：</strong> 結束後會顯示您的答對/答錯題數與完整作答紀錄！</li>
+                    <li><strong>計算白板：</strong> 遊戲中可開啟透明白板直接計算 <br><span style="color:var(--danger); font-size:14px;">(開啟時下方按鈕依然可點擊)</span></li>
+                </ul>
+            </div>
+            <input type="text" id="playerName" placeholder="請輸入挑戰者名稱" autocomplete="off" class="interactive" onkeypress="if(event.key === 'Enter') goToMenu();">
+            <br>
+            <button class="action-btn interactive" onclick="goToMenu()">進入遊戲大廳</button>
+        </div>
+
+        <div id="screen-menu" class="screen">
+            <h2>選擇挑戰關卡</h2>
+            <div class="level-grid">
+                <div class="level-card interactive" onclick="selectLevel(1, this)">
+                    <h3>第一關</h3>
+                    <p>認識容積</p>
+                </div>
+                <div class="level-card interactive" onclick="selectLevel(2, this)">
+                    <h3>第二關</h3>
+                    <p>容積與容量的關係</p>
+                </div>
+                <div class="level-card interactive" onclick="selectLevel(3, this)">
+                    <h3>第三關</h3>
+                    <p>不規則物體與應用</p>
+                </div>
+            </div>
+
+            <h2>選擇挑戰難度 (時間)</h2>
+            <div class="diff-grid">
+                <div class="diff-card interactive" onclick="selectDiff('基礎', 90, this)">
+                    <h3>基礎</h3>
+                    <p>90 秒</p>
+                </div>
+                <div class="diff-card interactive" onclick="selectDiff('進階', 60, this)">
+                    <h3>進階</h3>
+                    <p>60 秒</p>
+                </div>
+                <div class="diff-card interactive" onclick="selectDiff('魔王', 45, this)">
+                    <h3>魔王</h3>
+                    <p>45 秒</p>
+                </div>
+            </div>
+
+            <button class="action-btn interactive" style="margin-top: 25px;" onclick="startGame()">開始挑戰</button>
+
+            <div class="leaderboard-section">
+                <h2>🏆 榮譽排行榜 (Top 10)</h2>
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>名次</th>
+                            <th>玩家</th>
+                            <th>關卡</th>
+                            <th>難度</th>
+                            <th>正確/總題</th>
+                            <th>總分</th>
+                            <th>日期/時間</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="screen-game" class="screen">
+            
+            <div id="whiteboard-container">
+                <canvas id="whiteboard"></canvas>
+            </div>
+
+            <div class="game-header">
+                <div class="stat-box">🕒 時間: <span id="timerDisplay">0</span></div>
+                <div class="stat-box">🔥 Combo: <span id="comboDisplay">0</span></div>
+                <div class="stat-box">🏆 分數: <span id="scoreDisplay">0</span></div>
+            </div>
+            
+            <div class="question-area">
+                <p id="questionText">題目載入中...</p>
+                <div class="image-area" id="questionImageContainer">
+                </div>
+                
+                <div class="input-section">
+                    <input type="number" step="0.01" id="answerInput" placeholder="請輸入答案" onkeypress="handleEnter(event)" class="interactive">
+                    <button id="submitBtn" class="action-btn interactive" onclick="checkAnswer()">送出答案</button>
+                </div>
+            </div>
+                
+            <div class="controls interactive">
+                <button class="action-btn interactive" id="wbToggleBtn" onclick="toggleWhiteboard()" style="background: var(--btn-blue);">✏️ 開啟白板</button>
+                <button class="action-btn danger-btn interactive" onclick="clearWhiteboard()">🗑️ 清除白板</button>
+                <button class="action-btn interactive" onclick="pauseGame()" style="background: #7f8c8d;" id="pauseBtn">⏸️ 暫停</button>
+                <button class="action-btn warning-btn interactive" onclick="restartGame()">🔄 重來</button>
+                <button class="action-btn danger-btn interactive" onclick="abortGame()">🚪 回主選單</button>
+            </div>
+
+            <div id="cheerPopup" class="cheer-popup">
+                <div id="cheerPopupMsg" class="cheer-bubble"></div>
+                <img id="cheerPopupImg" src="" alt="Cheer">
+            </div>
+        </div>
+
+        <div id="screen-summary" class="screen">
+            <h2>🎯 挑戰結束！遊戲結算與復盤</h2>
+            <div class="summary-stats">
+                <div>本次得分<br><span id="sumScore">0</span></div>
+                <div>答對題數<br><span style="color:var(--success);" id="sumCorrect">0</span> / <span id="sumTotal1" style="color:var(--text-dark); font-size:20px;">0</span></div>
+                <div>答錯題數<br><span id="sumWrong">0</span> / <span id="sumTotal2" style="color:var(--text-dark); font-size:20px;">0</span></div>
+            </div>
+            
+            <div class="history-list" id="historyList">
+                </div>
+
+            <button class="action-btn interactive" onclick="goToMenu()">返回大廳</button>
+            <button class="action-btn warning-btn interactive" onclick="startGame()">再玩一次</button>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="footer-pill">
+            <div class="footer-left">
+                <div class="footer-dot" aria-hidden="true"></div>
+                <div class="footer-copy">© 2025–2026 Jessie Math 捷析老師. All rights reserved.</div>
+            </div>
+            <div class="footer-right">
+                <div class="footer-icon" aria-hidden="true"><i class="fas fa-compass"></i></div>
+                <div class="footer-tagline">數學不迷路，捷析Jessie帶你走向理解。</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- Game State ---
+        let player = { name: '', levelName: '', levelId: 0, diffName: '', diffTime: 0 };
+        let gameState = {
+            score: 0, timeLeft: 0, combo: 0, timerId: null, isPaused: false,
+            currentAns: 0, totalQuestions: 0, correctQuestions: 0, isShowingFeedback: false,
+            history: [], currentQuestionText: ""
+        };
+
+        // --- Shuffle Logic & Templates ---
+        const levelTemplates = {
+            1: [0, 1, 2, 3, 4, 5, 6, 7],
+            2: [0, 1, 2, 3, 4, 5, 6],
+            3: [0, 1, 2, 3, 4]
+        };
+        let currentShuffled = [];
+
+        function getNextTemplate(level) {
+            if (currentShuffled.length === 0) {
+                currentShuffled = [...levelTemplates[level]];
+                // Wash/Shuffle array
+                for (let i = currentShuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [currentShuffled[i], currentShuffled[j]] = [currentShuffled[j], currentShuffled[i]];
+                }
+            }
+            return currentShuffled.pop();
+        }
+
+        // --- Utility Functions ---
+        function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+        
+        // Formats number to max 2 decimal places properly
+        function formatAns(num) { return Math.round(num * 100) / 100; }
+
+        // --- SVG Generators for Questions ---
+        const SVGs = {
+            cube: (a, textA) => `
+                <svg viewBox="0 0 200 200">
+                    <polygon points="100,30 150,55 100,80 50,55" fill="#f39c12" stroke="#d68910" stroke-width="2"/>
+                    <polygon points="50,55 100,80 100,150 50,125" fill="#f5b041" stroke="#d68910" stroke-width="2"/>
+                    <polygon points="100,80 150,55 150,125 100,150" fill="#f8c471" stroke="#d68910" stroke-width="2"/>
+                    <text x="65" y="160" font-size="14" fill="#333" font-weight="bold">${textA}</text>
+                    <text x="135" y="160" font-size="14" fill="#333" font-weight="bold">${textA}</text>
+                    <text x="170" y="95" font-size="14" fill="#333" font-weight="bold">${textA}</text>
+                </svg>`,
+            rectPrism: (l, w, h, textL, textW, textH) => `
+                <svg viewBox="0 0 270 180">
+                    <polygon points="120,20 190,40 120,70 50,50" fill="#3498db" stroke="#2980b9" stroke-width="2"/>
+                    <polygon points="50,50 120,70 120,140 50,120" fill="#5dade2" stroke="#2980b9" stroke-width="2"/>
+                    <polygon points="120,70 190,40 190,110 120,140" fill="#85c1e9" stroke="#2980b9" stroke-width="2"/>
+                    <text x="75" y="150" font-size="14" fill="#333" font-weight="bold">${textL}</text>
+                    <text x="160" y="145" font-size="14" fill="#333" font-weight="bold">${textW}</text>
+                    <text x="195" y="80" font-size="14" fill="#333" font-weight="bold">${textH}</text>
+                </svg>`,
+            boxThickness: (outer, thick) => `
+                <svg viewBox="0 0 200 200">
+                    <rect x="40" y="40" width="120" height="120" fill="#e5e8e8" stroke="#7f8c8d" stroke-width="3"/>
+                    <rect x="55" y="55" width="90" height="90" fill="#fff" stroke="#7f8c8d" stroke-width="2" stroke-dasharray="4"/>
+                    <line x1="40" y1="30" x2="160" y2="30" stroke="#c0392b" stroke-width="2"/>
+                    <text x="100" y="20" font-size="14" fill="#c0392b" font-weight="bold" text-anchor="middle">外部長 ${outer}</text>
+                    <text x="100" y="105" font-size="14" fill="#7f8c8d" text-anchor="middle">厚度 ${thick}</text>
+                </svg>`,
+            thickBox: (l, w, h) => `
+                <svg viewBox="0 0 240 180">
+                    <polygon points="60,80 140,110 140,170 60,140" fill="#5dade2" stroke="#2980b9" stroke-width="1"/>
+                    <polygon points="100,50 180,80 140,110 60,80" fill="#3498db" stroke="#2980b9" stroke-width="1"/>
+                    <polygon points="140,110 180,80 180,140 140,170" fill="#85c1e9" stroke="#2980b9" stroke-width="1"/>
+                    <text x="80" y="165" font-size="12" fill="#333" font-weight="bold">外長 ${l}</text>
+                    <text x="150" y="165" font-size="12" fill="#333" font-weight="bold">外寬 ${w}</text>
+                    <text x="195" y="125" font-size="12" fill="#333" font-weight="bold">外高 ${h}</text>
+                    <line x1="80" y1="170" x2="115" y2="170" stroke="#c0392b" stroke-width="2"/>
+                    <line x1="150" y1="170" x2="185" y2="170" stroke="#c0392b" stroke-width="2"/>
+                    <line x1="195" y1="130" x2="230" y2="130" stroke="#c0392b" stroke-width="2"/>
+                </svg>`,
+            beaker: (textVol) => `
+                <svg viewBox="0 0 100 200">
+                    <path d="M 20,20 L 20,170 Q 20,180 30,180 L 70,180 Q 80,180 80,170 L 80,20" fill="none" stroke="#bdc3c7" stroke-width="4"/>
+                    <path d="M 22,80 L 78,80 L 78,170 Q 78,178 70,178 L 30,178 Q 22,178 22,170 Z" fill="#3498db" opacity="0.7"/>
+                    <text x="50" y="120" font-size="14" fill="#fff" font-weight="bold" text-anchor="middle">${textVol}</text>
+                    <line x1="20" y1="80" x2="30" y2="80" stroke="#333" stroke-width="2"/>
+                    <line x1="20" y1="110" x2="30" y2="110" stroke="#333" stroke-width="2"/>
+                    <line x1="20" y1="140" x2="30" y2="140" stroke="#333" stroke-width="2"/>
+                </svg>`,
+            beakerDrop: (v1, v2) => {
+                let maxV = Math.max(1000, v2 + 100);
+                let h1 = (v1 / maxV) * 120;
+                let h2 = (v2 / maxV) * 120;
+                return `
+                <svg viewBox="0 0 300 200">
+                    <path d="M 50,30 L 50,160 L 110,160 L 110,30" fill="none" stroke="#bdc3c7" stroke-width="3"/>
+                    <rect x="52" y="${160 - h1}" width="56" height="${h1}" fill="#3498db" opacity="0.6"/>
+                    <text x="80" y="180" font-size="14" fill="#333" text-anchor="middle">${v1} mL</text>
+                    <text x="150" y="100" font-size="30" fill="#333" text-anchor="middle">→</text>
+                    <path d="M 190,30 L 190,160 L 250,160 L 250,30" fill="none" stroke="#bdc3c7" stroke-width="3"/>
+                    <rect x="192" y="${160 - h2}" width="56" height="${h2}" fill="#3498db" opacity="0.6"/>
+                    <circle cx="220" cy="${160 - h2/2}" r="10" fill="#7f8c8d"/>
+                    <text x="220" y="180" font-size="14" fill="#333" text-anchor="middle">${v2} mL</text>
+                </svg>`;
+            },
+            rockInWater: (h1, h2) => `
+                <svg viewBox="0 0 300 150">
+                    <rect x="20" y="30" width="80" height="100" fill="none" stroke="#7f8c8d" stroke-width="3"/>
+                    <rect x="22" y="70" width="76" height="58" fill="#3498db" opacity="0.6"/>
+                    <text x="60" y="65" font-size="12" fill="#2980b9" text-anchor="middle">水深 ${h1}</text>
+                    <text x="135" y="90" font-size="30" fill="#333">→</text>
+                    <rect x="180" y="30" width="80" height="100" fill="none" stroke="#7f8c8d" stroke-width="3"/>
+                    <rect x="182" y="50" width="76" height="78" fill="#3498db" opacity="0.6"/>
+                    <circle cx="220" cy="110" r="15" fill="#7f8c8d"/>
+                    <text x="220" y="45" font-size="12" fill="#2980b9" text-anchor="middle">水深 ${h2}</text>
+                </svg>`,
+            meter: (val) => `
+                <svg viewBox="0 0 150 150">
+                    <circle cx="75" cy="75" r="60" fill="#ecf0f1" stroke="#34495e" stroke-width="6"/>
+                    <rect x="40" y="60" width="70" height="30" fill="#2c3e50" rx="5"/>
+                    <text x="75" y="81" font-size="20" fill="#2ecc71" font-weight="bold" text-anchor="middle" font-family="monospace">${val}</text>
+                    <text x="75" y="115" font-size="14" fill="#34495e" font-weight="bold" text-anchor="middle">水表 (度)</text>
+                </svg>`,
+            paperCut: (L, W, cut) => `
+                <svg viewBox="0 0 200 150">
+                    <rect x="30" y="20" width="140" height="110" fill="#fcf3cf" stroke="#d4ac0d" stroke-width="2" />
+                    <rect x="30" y="20" width="30" height="30" fill="#fff" stroke="#d4ac0d" stroke-width="1" stroke-dasharray="3"/>
+                    <rect x="140" y="20" width="30" height="30" fill="#fff" stroke="#d4ac0d" stroke-width="1" stroke-dasharray="3"/>
+                    <rect x="30" y="100" width="30" height="30" fill="#fff" stroke="#d4ac0d" stroke-width="1" stroke-dasharray="3"/>
+                    <rect x="140" y="100" width="30" height="30" fill="#fff" stroke="#d4ac0d" stroke-width="1" stroke-dasharray="3"/>
+                    <text x="100" y="15" font-size="12" fill="#333" text-anchor="middle">長 ${L}</text>
+                    <text x="15" y="75" font-size="12" fill="#333" text-anchor="middle" transform="rotate(-90 15,75)">寬 ${W}</text>
+                    <text x="45" y="35" font-size="10" fill="#e74c3c" text-anchor="middle">${cut}</text>
+                </svg>`
+        };
+
+        // --- Question Generator ---
+        function generateQuestion() {
+            let qText = "";
+            let svgHtml = "";
+            let ans = 0;
+            
+            let type = getNextTemplate(player.levelId);
+
+            if (player.levelId === 1) { // 認識容積
+                if (type === 0) {
+                    let a = rand(5, 30);
+                    qText = `正方體盒子裡面的邊長是 ${a} 公分，這個盒子的容積是多少立方公分？`;
+                    ans = a * a * a;
+                    svgHtml = SVGs.cube(a, `${a}cm`);
+                } else if (type === 1) {
+                    let a = rand(10, 30), b = rand(5, 20), c = rand(5, 15);
+                    qText = `有一個長方體容器，內部的長 ${a} 公分、寬 ${b} 公分、高 ${c} 公分。它的容積是幾立方公分？`;
+                    ans = a * b * c;
+                    svgHtml = SVGs.rectPrism(a, b, c, `長${a}`, `寬${b}`, `高${c}`);
+                } else if (type === 2) {
+                    let a = rand(15, 40)*2, t = rand(1, 4) + rand(0, 1) * 0.5; // introduce decimal thickness
+                    qText = `有一個【有蓋】的正方體木盒，外面邊長是 ${a} 公分，厚度是 ${t} 公分，容積是多少立方公分？`;
+                    ans = Math.pow(a - 2*t, 3);
+                    svgHtml = SVGs.boxThickness(`${a}cm`, `${t}cm`);
+                } else if (type === 3) {
+                    let a = rand(20, 40), b = rand(15, 30), c = rand(15, 30), t = rand(1, 3);
+                    qText = `【無蓋】的長方體塑膠盒，外面的長 ${a} 公分、寬 ${b} 公分、高 ${c} 公分，厚度是 ${t} 公分，容積是多少立方公分？`;
+                    ans = (a - 2*t) * (b - 2*t) * (c - t);
+                    svgHtml = SVGs.thickBox(a, b, c);
+                } else if (type === 4) {
+                    let a = rand(20, 50), b = rand(15, 30), c = rand(15, 30), t = rand(1, 3);
+                    qText = `【有蓋】的長方體鐵盒，外面的長 ${a} 公分、寬 ${b} 公分、高 ${c} 公分，厚度是 ${t} 公分，盒子的容積是多少立方公分？`;
+                    ans = (a - 2*t) * (b - 2*t) * (c - 2*t);
+                    svgHtml = SVGs.thickBox(a, b, c);
+                } else if (type === 5) {
+                    let L = rand(20, 50), W = rand(15, 30), cut = rand(3, 6);
+                    qText = `一張長 ${L} 公分、寬 ${W} 公分的長方形厚紙板，四個角剪掉邊長 ${cut} 公分的正方形後，摺成一個無蓋紙盒，紙盒的容積是多少立方公分？`;
+                    ans = (L - 2*cut) * (W - 2*cut) * cut;
+                    svgHtml = SVGs.paperCut(L, W, cut);
+                } else if (type === 6) {
+                    let L = rand(4, 10)*10, W = rand(3, 8)*10, H = rand(3, 8)*10, s = rand(2, 5)*5;
+                    qText = `一個內部長 ${L} 公分、寬 ${W} 公分、高 ${H} 公分的長方體置物櫃，可以裝滿幾個邊長 ${s} 公分的正方體紙盒？`;
+                    ans = Math.floor(L/s) * Math.floor(W/s) * Math.floor(H/s);
+                    svgHtml = SVGs.rectPrism(L, W, H, `長${L}`, `寬${W}`, `高${H}`);
+                } else if (type === 7) {
+                    let L = rand(10, 30), W = rand(10, 20), H = rand(5, 15);
+                    let vol = L * W * H + rand(-5, 5)*10; // introduce non-integer height
+                    qText = `一個長方體容器的容積是 ${vol} 立方公分，已知內部長 ${L} 公分、寬 ${W} 公分，請問高是多少公分？`;
+                    ans = vol / (L * W);
+                    svgHtml = SVGs.rectPrism(L, W, "?", `長${L}`, `寬${W}`, `高?`);
+                }
+
+            } else if (player.levelId === 2) { // 容積與容量的關係
+                if (type === 0) {
+                    let a = rand(2, 25) + rand(0, 9)*0.1;
+                    qText = `${a} 公升的水，體積是多少立方公分？`;
+                    ans = a * 1000;
+                    svgHtml = SVGs.beaker(`${a} L`);
+                } else if (type === 1) {
+                    let a = rand(3, 50) * 1000 + rand(1, 9)*100;
+                    qText = `${a} 立方公分的水，等於多少公升？`;
+                    ans = a / 1000;
+                    svgHtml = SVGs.beaker(`${a} cm³`);
+                } else if (type === 2) {
+                    let a = rand(2, 30) + rand(0, 5)*0.5;
+                    qText = `${a} 立方公尺的水量，等於多少公升？`;
+                    ans = a * 1000;
+                    svgHtml = SVGs.beaker(`${a} m³`);
+                } else if (type === 3) {
+                    let a = rand(20, 50), b = rand(10, 30), d = rand(2, 15);
+                    let vol = a * b * d * 1000 + rand(1,5)*1000; // Might create decimal depth
+                    qText = `內部長 ${a} 公分、寬 ${b} 公分的長方體容器，倒入 ${vol} 毫升的水後，水深會是幾公分？`;
+                    ans = vol / (a * b); 
+                    svgHtml = SVGs.rectPrism(a, b, "水深?", `長${a}`, `寬${b}`, `注入水`);
+                } else if (type === 4) {
+                    let a = rand(5, 50) + rand(0,9)*0.1;
+                    qText = `水費單上寫著用了 ${a} 度的水，請問這相當於多少立方公尺？`;
+                    ans = a;
+                    svgHtml = SVGs.meter(a);
+                } else if (type === 5) {
+                    let a = rand(2, 5)*10, b = rand(2, 5)*10, h1 = rand(5, 15), h2 = h1 + rand(3, 10);
+                    qText = `內部長 ${a} 公分、寬 ${b} 公分的長方體水箱，原本水深 ${h1} 公分，再倒入多少公升的水後，水深會變成 ${h2} 公分？`;
+                    ans = (a * b * (h2 - h1)) / 1000;
+                    svgHtml = SVGs.rockInWater(`${h1}cm`, `${h2}cm`);
+                } else if (type === 6) {
+                    let a = rand(20, 40)*2, b = rand(15, 30)*2, c = rand(15, 30)*2, t = rand(1, 3);
+                    qText = `有一個厚度為 ${t} 公分的【有蓋】長方體蓄水池，外部長 ${a} 公分、寬 ${b} 公分、高 ${c} 公分，它的容量是多少公升？`;
+                    ans = ((a - 2*t) * (b - 2*t) * (c - 2*t)) / 1000;
+                    svgHtml = SVGs.thickBox(a, b, c);
+                }
+
+            } else { // 不規則物體與應用
+                if (type === 0) {
+                    let a = rand(2, 5)*10, b = rand(2, 4)*10, c = rand(10, 20), d = rand(c+2, c+10) + rand(0, 5)*0.1;
+                    qText = `長方體水槽內部長 ${a} 公分、寬 ${b} 公分，水深 ${c} 公分。放入一塊石頭完全沉入後，水深上升到 ${d} 公分，石頭的體積是幾立方公分？`;
+                    ans = a * b * (d - c);
+                    svgHtml = SVGs.rockInWater(`${c}cm`, `${d}cm`);
+                } else if (type === 1) {
+                    let a = rand(2, 5)*10, b = rand(2, 4)*10, c = rand(15, 25), d = rand(5, c-2) + rand(0,5)*0.1;
+                    qText = `長方體水缸內部長 ${a} 公分、寬 ${b} 公分。放入鐵塊後水深 ${c} 公分，把鐵塊取出後，水深下降到 ${d} 公分。請問鐵塊的體積是幾立方公分？`;
+                    ans = a * b * (c - d);
+                    svgHtml = SVGs.rockInWater(`${d}cm`, `${c}cm`);
+                } else if (type === 2) {
+                    let v1 = rand(2, 5) * 100;
+                    let v2 = v1 + rand(3, 15) * 10 + rand(1, 9);
+                    qText = `量筒原本裝水 ${v1} 毫升，將一個不規則金屬塊完全沉入後，水面上升到 ${v2} 毫升。求金屬塊體積是多少立方公分？`;
+                    ans = v2 - v1;
+                    svgHtml = SVGs.beakerDrop(v1, v2);
+                } else if (type === 3) {
+                    let L = rand(20, 40), W = rand(15, 30), H = rand(15, 25);
+                    let stoneVol = rand(10, 30) * 100 + rand(1,9)*10;
+                    qText = `一個裝滿水的長方體容器，內部長 ${L} 公分、寬 ${W} 公分、高 ${H} 公分。投入一塊體積為 ${stoneVol} 立方公分的石頭完全沉入，請問會溢出多少毫升(mL)的水？`;
+                    ans = stoneVol; 
+                    svgHtml = SVGs.rectPrism(L, W, H, `滿水位`, `滿水位`, `滿水位`);
+                } else if (type === 4) {
+                    let l = rand(2, 5) * 10, w = rand(2, 5) * 10;
+                    let h1 = rand(5, 15);
+                    let rockVol = rand(10, 50) * 100 + rand(1, 9)*10;
+                    qText = `內部長 ${l} 公分、寬 ${w} 公分的長方體容器中，裝水深 ${h1} 公分。投入一個體積 ${rockVol} 立方公分的石頭完全沉入，水深會變成幾公分？ (假設水未溢出)`;
+                    ans = h1 + (rockVol / (l * w));
+                    svgHtml = SVGs.rectPrism(l, w, h1, `長${l}`, `寬${w}`, `水深${h1}`);
+                }
+            }
+            
+            ans = formatAns(ans);
+            gameState.currentQuestionText = qText;
+            return { text: qText, answer: ans, svg: svgHtml };
+        }
+
+        // --- Navigation ---
+        function switchScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function goToMenu() {
+            let nameInput = document.getElementById('playerName').value.trim();
+            if (!nameInput) { alert("請先輸入您的挑戰者名稱！"); return; }
+            player.name = nameInput;
+            renderLeaderboard();
+            switchScreen('screen-menu');
+        }
+
+        function selectLevel(id, element) {
+            player.levelId = id;
+            player.levelName = element.querySelector('p').innerText;
+            document.querySelectorAll('.level-card').forEach(c => c.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function selectDiff(name, time, element) {
+            player.diffName = name;
+            player.diffTime = time;
+            document.querySelectorAll('.diff-card').forEach(c => c.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        // --- Game Logic ---
+        function startGame() {
+            if (!player.levelId || !player.diffTime) { alert("請選擇關卡與難度！"); return; }
+            gameState = { 
+                score: 0, timeLeft: player.diffTime, combo: 0, isPaused: false, 
+                totalQuestions: 0, correctQuestions: 0, isShowingFeedback: false,
+                history: []
+            };
+            currentShuffled = []; // Reset shuffle deck for new game
+            
+            hideFeedback();
+            
+            updateStatsUI();
+            switchScreen('screen-game');
+            nextQuestion();
+            
+            if (gameState.timerId) clearInterval(gameState.timerId);
+            gameState.timerId = setInterval(timerTick, 1000);
+            
+            initWhiteboard();
+        }
+
+        function restartGame() {
+            if (confirm("確定要重新開始嗎？這將會重置目前的分數與時間。")) {
+                startGame();
+            }
+        }
+
+        function timerTick() {
+            if (gameState.isPaused) return;
+            gameState.timeLeft--;
+            document.getElementById('timerDisplay').innerText = gameState.timeLeft;
+            if (gameState.timeLeft <= 0) {
+                timeUpEndGame();
+            }
+        }
+
+        function pauseGame() {
+            gameState.isPaused = !gameState.isPaused;
+            document.getElementById('pauseBtn').innerText = gameState.isPaused ? "▶️ 繼續" : "⏸️ 暫停";
+        }
+
+        function nextQuestion() {
+            let q = generateQuestion();
+            document.getElementById('questionText').innerText = q.text;
+            document.getElementById('questionImageContainer').innerHTML = q.svg;
+            gameState.currentAns = q.answer;
+            let inp = document.getElementById('answerInput');
+            inp.value = "";
+            inp.disabled = false;
+            document.getElementById('submitBtn').disabled = false;
+            inp.focus();
+        }
+
+        function handleEnter(e) { if (e.key === 'Enter') checkAnswer(); }
+
+        function checkAnswer() {
+            if (gameState.isPaused || gameState.isShowingFeedback) return;
+            let userAnsStr = document.getElementById('answerInput').value.trim();
+            if (userAnsStr === "") return;
+            
+            gameState.isShowingFeedback = true;
+            document.getElementById('answerInput').disabled = true;
+            document.getElementById('submitBtn').disabled = true;
+
+            gameState.totalQuestions++;
+            let parsedUser = parseFloat(userAnsStr);
+            // Allow precision margin of 0.01 for correctness
+            let isCorrect = Math.abs(parsedUser - gameState.currentAns) <= 0.015;
+
+            // Record History
+            gameState.history.push({
+                text: gameState.currentQuestionText,
+                userAns: userAnsStr,
+                correctAns: gameState.currentAns,
+                isCorrect: isCorrect
+            });
+
+            if (isCorrect) {
+                gameState.correctQuestions++;
+                gameState.combo++;
+                gameState.timeLeft += 5; // Reward
+                let points = Math.floor(10 * (1 + (gameState.combo - 1) * 0.2));
+                gameState.score += points;
+                showFeedback(true, gameState.currentAns);
+            } else {
+                gameState.combo = 0;
+                gameState.timeLeft = Math.max(0, gameState.timeLeft - 5); // Penalty
+                showFeedback(false, gameState.currentAns);
+            }
+            
+            updateStatsUI();
+            
+            // Wait 1.5s, then hide feedback and go next
+            setTimeout(() => {
+                hideFeedback();
+                if (gameState.timeLeft > 0) {
+                    nextQuestion();
+                } else {
+                    timeUpEndGame();
+                }
+                gameState.isShowingFeedback = false;
+            }, 1500);
+        }
+
+        function updateStatsUI() {
+            document.getElementById('timerDisplay').innerText = gameState.timeLeft;
+            document.getElementById('comboDisplay').innerText = gameState.combo;
+            document.getElementById('scoreDisplay').innerText = gameState.score;
+        }
+
+        // --- 全新設計：隨機捷析老師鼓勵視窗 ---
+        function showFeedback(isCorrect, correctAns) {
+            const popup = document.getElementById('cheerPopup');
+            const msg = document.getElementById('cheerPopupMsg');
+            const img = document.getElementById('cheerPopupImg');
+            
+            // 隨機決定出現在左側或右側
+            let isLeft = Math.random() > 0.5;
+            // 隨機圖片尺寸 (200px ~ 300px)
+            let size = rand(200, 300); 
+            
+            popup.className = `cheer-popup show ${isLeft ? 'left' : 'right'}`;
+            img.style.width = size + 'px';
+            // 嚴格對應圖片，左側為 jessie.png，右側為 JESSIEMATH-Q.png
+            img.src = isLeft ? 'jessie.png' : 'JESSIEMATH-Q.png';
+            
+            if (isCorrect) {
+                msg.className = 'cheer-bubble correct';
+                const praises = [
+                    "太棒了！完全正確！", 
+                    "繼續保持氣勢！", 
+                    "完美解題！", 
+                    "這題也難不倒你！", 
+                    "捷析為你歡呼！", 
+                    "神乎其技！", 
+                    "做得太好了，繼續加油！",
+                    "思路很清晰喔！"
+                ];
+                msg.innerHTML = praises[rand(0, praises.length - 1)];
+            } else {
+                msg.className = 'cheer-bubble wrong';
+                // 答錯時給予的安慰語句
+                const encourages = [
+                    "哎呀，算錯囉！", 
+                    "再接再厲！", 
+                    "可惜了！", 
+                    "沒關係，下次一定對！", 
+                    "不要氣餒，捷析老師陪著你！", 
+                    "深呼吸，再來挑戰一次！",
+                    "算錯沒關係，理解最重要！"
+                ];
+                msg.innerHTML = `${encourages[rand(0, encourages.length - 1)]}<br><span style="color:#555;font-size:15px;display:block;margin-top:5px;">正確答案：${correctAns}</span>`;
+            }
+        }
+
+        function hideFeedback() {
+            document.getElementById('cheerPopup').classList.remove('show');
+        }
+
+        // --- Whiteboard Logic ---
+        let canvas, ctx;
+        let isDrawing = false;
+        let isWbActive = false;
+
+        // ✅ 修正：精準取得畫布與滑鼠/手指之間的相對座標
+        function getWbPos(e) {
+            let rect = canvas.getBoundingClientRect();
+            if (e.touches && e.touches.length > 0) {
+                return { 
+                    x: e.touches[0].clientX - rect.left, 
+                    y: e.touches[0].clientY - rect.top 
+                };
+            }
+            return { 
+                x: e.clientX - rect.left, 
+                y: e.clientY - rect.top 
+            };
+        }
+
+        function initWhiteboard() {
+            canvas = document.getElementById('whiteboard');
+            ctx = canvas.getContext('2d');
+            let container = document.getElementById('whiteboard-container');
+            canvas.width = container.offsetWidth;
+            canvas.height = container.offsetHeight;
+            
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#e74c3c';
+
+            canvas.onmousedown = (e) => { 
+                isDrawing = true; 
+                let pos = getWbPos(e);
+                ctx.beginPath(); 
+                ctx.moveTo(pos.x, pos.y); 
+            };
+            canvas.onmousemove = (e) => { 
+                if(isDrawing) { 
+                    let pos = getWbPos(e);
+                    ctx.lineTo(pos.x, pos.y); 
+                    ctx.stroke(); 
+                } 
+            };
+            canvas.onmouseup = () => isDrawing = false;
+            canvas.onmouseout = () => isDrawing = false;
+            
+            // Touch support
+            canvas.ontouchstart = (e) => { 
+                e.preventDefault(); 
+                isDrawing = true; 
+                let pos = getWbPos(e);
+                ctx.beginPath(); 
+                ctx.moveTo(pos.x, pos.y); 
+            };
+            canvas.ontouchmove = (e) => { 
+                if(isDrawing) { 
+                    e.preventDefault();
+                    let pos = getWbPos(e);
+                    ctx.lineTo(pos.x, pos.y); 
+                    ctx.stroke(); 
+                } 
+            };
+            canvas.ontouchend = () => isDrawing = false;
+        }
+
+        function toggleWhiteboard() {
+            let gameScreen = document.getElementById('screen-game');
+            let btn = document.getElementById('wbToggleBtn');
+            isWbActive = !isWbActive;
+            if(isWbActive) {
+                gameScreen.classList.add('wb-active');
+                btn.innerText = "🔒 關閉白板";
+                btn.style.background = "#e67e22";
+            } else {
+                gameScreen.classList.remove('wb-active');
+                btn.innerText = "✏️ 開啟白板";
+                btn.style.background = "var(--btn-blue)";
+            }
+        }
+
+        function clearWhiteboard() {
+            if(ctx && canvas) ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // --- End Game & Leaderboard & Summary ---
+        function timeUpEndGame() {
+            clearInterval(gameState.timerId);
+            hideFeedback();
+            saveToLeaderboard();
+            renderLeaderboard();
+            cleanupGameScreen();
+            showSummaryScreen();
+        }
+
+        function abortGame() {
+            clearInterval(gameState.timerId);
+            hideFeedback();
+            cleanupGameScreen();
+            switchScreen('screen-menu');
+        }
+
+        function cleanupGameScreen() {
+            clearWhiteboard();
+            if(isWbActive) toggleWhiteboard(); // Turn off whiteboard
+        }
+        
+        function showSummaryScreen() {
+            document.getElementById('sumScore').innerText = gameState.score;
+            document.getElementById('sumCorrect').innerText = gameState.correctQuestions;
+            document.getElementById('sumTotal1').innerText = gameState.totalQuestions;
+            document.getElementById('sumWrong').innerText = gameState.totalQuestions - gameState.correctQuestions;
+            document.getElementById('sumTotal2').innerText = gameState.totalQuestions;
+            
+            let html = '<table class="leaderboard-table" style="font-size:15px;"><tr><th>題目</th><th style="min-width:60px;">你的答案</th><th style="min-width:60px;">正確答案</th><th>結果</th></tr>';
+            
+            if(gameState.history.length === 0) {
+                html += '<tr><td colspan="4">沒有作答紀錄</td></tr>';
+            } else {
+                gameState.history.forEach(h => {
+                    html += `<tr>
+                        <td style="text-align:left; font-size:14px; padding:8px;">${h.text}</td>
+                        <td style="color:${h.isCorrect ? 'var(--text-dark)' : 'var(--danger)'}; font-weight:bold;">${h.userAns}</td>
+                        <td style="color:var(--success); font-weight:bold;">${h.correctAns}</td>
+                        <td>${h.isCorrect ? '✔️' : '❌'}</td>
+                    </tr>`;
+                });
+            }
+            html += '</table>';
+            document.getElementById('historyList').innerHTML = html;
+            
+            switchScreen('screen-summary');
+        }
+
+        function saveToLeaderboard() {
+            if (gameState.totalQuestions === 0) return; // don't save 0 questions played
+            let record = {
+                name: player.name,
+                level: player.levelName,
+                diff: player.diffName,
+                correct: gameState.correctQuestions,
+                total: gameState.totalQuestions,
+                score: gameState.score,
+                date: new Date().toLocaleString('zh-TW', {hour12:false})
+            };
+            let lb = JSON.parse(localStorage.getItem('jessieMathLB_G5_v5')) || [];
+            lb.push(record);
+            lb.sort((a, b) => b.score - a.score); // 總分由高到低
+            lb = lb.slice(0, 10); // 取前10名
+            localStorage.setItem('jessieMathLB_G5_v5', JSON.stringify(lb));
+        }
+
+        function renderLeaderboard() {
+            let lb = JSON.parse(localStorage.getItem('jessieMathLB_G5_v5')) || [];
+            let tbody = document.getElementById('leaderboardBody');
+            tbody.innerHTML = "";
+            lb.forEach((r, idx) => {
+                let rankIcon = `${idx + 1}`;
+                if (idx === 0) rankIcon = "🥇";
+                if (idx === 1) rankIcon = "🥈";
+                if (idx === 2) rankIcon = "🥉";
+                if (idx > 2 && idx < 10) rankIcon = "🏅";
+                
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="rank-icon">${rankIcon}</td>
+                    <td>${r.name}</td>
+                    <td>${r.level}</td>
+                    <td>${r.diff}</td>
+                    <td>${r.correct} / ${r.total}</td>
+                    <td><b>${r.score}</b></td>
+                    <td style="font-size:13px; color:#7f8c8d;">${r.date}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+            if (lb.length === 0) {
+                tbody.innerHTML = "<tr><td colspan='7'>目前尚無紀錄，快來成為第一名吧！</td></tr>";
+            }
+        }
+        
+        // Ensure Canvas Resizes properly
+        window.addEventListener('resize', () => {
+            if(document.getElementById('screen-game').classList.contains('active')) {
+                let container = document.getElementById('whiteboard-container');
+                if(canvas) {
+                    canvas.width = container.offsetWidth;
+                    canvas.height = container.offsetHeight;
+                    ctx.lineWidth = 3; ctx.lineCap = 'round'; ctx.strokeStyle = '#e74c3c';
+                }
+            }
+        });
+        
+        // Initial render on load
+        window.onload = () => {
+            document.getElementById('playerName').focus();
+            renderLeaderboard();
+        };
+    </script>
+</body>
+</html>
